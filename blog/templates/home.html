@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <h1>Статьи блога</h1>
+    <form method="get">
+        <input type="text" name="q" placeholder="Поиск статей..." class="form-control">
+        <button type="submit" class="btn btn-primary">Искать</button>
+    </form>
+    {% for article in articles %}
+        <div class="article">
+            <h2><a href="{% url 'blog:view_article' article.pk %}">{{ article.title }}</a></h2>
+            <p>{{ article.content|truncatewords:30 }}</p>
+            <p>Автор: {{ article.author.username }} | {{ article.created_at }}</p>
+            <p>Лайки: {{ article.likes }}</p>
+        </div>
+    {% empty %}
+        <p>Статей пока нет.</p>
+    {% endfor %}
+{% endblock %}

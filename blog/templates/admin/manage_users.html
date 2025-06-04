@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Управление пользователями{% endblock %}
+{% block content %}
+    <h1>Управление пользователями</h1>
+    {% for user in users %}
+        <div class="article">
+            <p>Имя пользователя: {{ user.username }} | Email: {{ user.email }}</p>
+        </div>
+    {% empty %}
+        <p>Пользователей нет.</p>
+    {% endfor %}
+    <a href="{% url 'blog:home' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Управление тегами{% endblock %}
+{% block content %}
+    <h1>Управление тегами</h1>
+    <form method="post" action="{% url 'blog:manage_tags' %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+    {% for tag in tags %}
+        <div class="article">
+            <p>{{ tag.name }}</p>
+            <form method="post" action="{% url 'blog:delete_tag' tag.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Тегов пока нет.</p>
+    {% endfor %}
+    <a href="{% url 'blog:home' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}

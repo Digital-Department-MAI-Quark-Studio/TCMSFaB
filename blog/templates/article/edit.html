@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Редактировать статью{% endblock %}
+{% block content %}
+    <h1>Редактировать статью</h1>
+    <form method="post" action="{% url 'blog:edit_article' article.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Обновить</button>
+    </form>
+    <form method="post" action="{% url 'blog:delete_article' article.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить</button>
+    </form>
+    <a href="{% url 'blog:home' %}" class="btn btn-primary">Назад</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Управление категориями{% endblock %}
+{% block content %}
+    <h1>Управление категориями</h1>
+    <form method="post" action="{% url 'blog:manage_categories' %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+    {% for category in categories %}
+        <div class="article">
+            <p>{{ category.name }}</p>
+            <form method="post" action="{% url 'blog:delete_category' category.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Категорий пока нет.</p>
+    {% endfor %}
+    <a href="{% url 'blog:home' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.content }}</p>
+    <p>Автор: {{ article.author.username }} | {{ article.created_at }}</p>
+    <p>Категория: {{ article.category|default:"Нет" }}</p>
+    <p>Теги: {% for tag in article.tags.all %}{{ tag.name }} {% empty %}Нет{% endfor %}</p>
+    <p>Лайки: {{ article.likes }}</p>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'blog:like_article' article.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Лайк</button>
+        </form>
+    {% endif %}
+    <h2>Комментарии</h2>
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Добавить комментарий</button>
+        </form>
+    {% endif %}
+    {% for comment in comments %}
+        <div class="article">
+            <p>{{ comment.content }}</p>
+            <p>Автор: {{ comment.author.username }} | {{ comment.created_at }}</p>
+        </div>
+    {% empty %}
+        <p>Комментариев пока нет.</p>
+    {% endfor %}
+    <a href="{% url 'blog:home' %}" class="btn btn-primary">Назад</a>
+{% endblock %}
